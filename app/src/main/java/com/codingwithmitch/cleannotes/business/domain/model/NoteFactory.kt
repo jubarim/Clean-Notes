@@ -27,6 +27,7 @@ constructor(
         )
     }
 
+    // Just used for testing
     fun createNoteList(numNotes: Int): List<Note> {
         val list: ArrayList<Note> = ArrayList()
         for(i in 0 until numNotes){ // exclusive on upper bound
