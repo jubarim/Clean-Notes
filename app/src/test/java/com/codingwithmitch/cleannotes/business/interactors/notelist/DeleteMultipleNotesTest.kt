@@ -172,20 +172,20 @@ class DeleteMultipleNotesTest {
         val networkNotes = noteNetworkDataSource.getAllNotes()
         assertFalse { networkNotes.containsAll(validNotes) }
 
-//        // confirm ONLY the valid notes are inserted into network "deletes" node
-//        val deletedNetworkNotes = noteNetworkDataSource.getDeletedNotes()
-//        assertTrue { deletedNetworkNotes.containsAll(validNotes) }
-//        assertFalse { deletedNetworkNotes.containsAll(invalidNotes) }
-//
-//        // confirm ONLY the valid notes are deleted from cache
-//        for (note in validNotes) {
-//            val noteInCache = noteCacheDataSource.searchNoteById(note.id)
-//            assertNull(noteInCache)
-//        }
-//        // the invalid notes did not exist in cache before - they are fake
-//        // So how to we check? You can check the size of the notes in the cache
-//        val numNotesInCache = noteCacheDataSource.getNumNotes()
-//        assertTrue { numNotesInCache == (notesInCache.size - validNotes.size) }
+        // confirm ONLY the valid notes are inserted into network "deletes" node
+        val deletedNetworkNotes = noteNetworkDataSource.getDeletedNotes()
+        assertTrue { deletedNetworkNotes.containsAll(validNotes) }
+        assertFalse { deletedNetworkNotes.containsAll(invalidNotes) }
+
+        // confirm ONLY the valid notes are deleted from cache
+        for (note in validNotes) {
+            val noteInCache = noteCacheDataSource.searchNoteById(note.id)
+            assertNull(noteInCache)
+        }
+        // the invalid notes did not exist in cache before - they are fake
+        // So how to we check? You can check the size of the notes in the cache
+        val numNotesInCache = noteCacheDataSource.getNumNotes()
+        assertTrue { numNotesInCache == (notesInCache.size - validNotes.size) }
     }
 
     @Test
