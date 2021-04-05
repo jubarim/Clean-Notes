@@ -5,7 +5,6 @@ import com.codingwithmitch.cleannotes.business.domain.model.NoteFactory
 import com.codingwithmitch.cleannotes.business.domain.state.DataState
 import com.codingwithmitch.cleannotes.business.interactors.notelist.GetNumNotes.Companion.GET_NUM_NOTES_SUCCESS
 import com.codingwithmitch.cleannotes.di.DependencyContainer
-import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListStateEvent
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListStateEvent.*
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListViewState
 import kotlinx.coroutines.InternalCoroutinesApi
