@@ -17,8 +17,16 @@ class DeleteMultipleNotes(
     private val noteNetworkDataSource: NoteNetworkDataSource
 ) {
 
-    private var onDeleteError = false
+    // set true if an error occurs when deleting any of the notes from cache
+    private var onDeleteError: Boolean = false
 
+    /**
+     * Logic:
+     * 1. execute all the deletes and save result into an ArrayList<DataState<NoteListViewState>>
+     * 2a. If one of the results is a failure, emit an "error" response
+     * 2b. If all success, emit success response
+     * 3. Update network with notes that were successfully deleted
+     */
     fun deleteNotes(
         notes: List<Note>,
         stateEvent: StateEvent
