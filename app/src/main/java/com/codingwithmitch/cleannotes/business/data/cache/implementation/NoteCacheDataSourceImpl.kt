@@ -24,6 +24,9 @@ constructor(
     override suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String) =
         noteDaoService.updateNote(primaryKey, newTitle, newBody)
 
+    override suspend fun getAllNotes(): List<Note> =
+        noteDaoService.getAllNotes()
+
     override suspend fun searchNotes(query: String, filterAndOrder: String, page: Int): List<Note> {
         TODO("Check filterAndOrder and make query")
     }

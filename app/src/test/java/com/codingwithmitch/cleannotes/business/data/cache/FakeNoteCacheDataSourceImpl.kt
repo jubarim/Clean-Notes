@@ -74,6 +74,10 @@ constructor(
         }?: -1 // nothing to update
     }
 
+    override suspend fun getAllNotes(): List<Note> {
+        return ArrayList(notesData.values)
+    }
+
     // Not testing the order/filter. Just basic query
     // simulate SQLite "LIKE" query on title and body
     override suspend fun searchNotes(
