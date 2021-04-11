@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788836555170",
+    "project_id": "clean-notes-414d5",
+    "storage_bucket": "clean-notes-414d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788836555170:android:eb573e027e80a617ca3afb",
+        "android_client_info": {
+          "package_name": "com.codingwithmitch.cleannotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788836555170-l7c39nlvncdr0oqdsgi14ptp9rkgo4i4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKsnI59ODePYPqY__pZEDEvs7HkBnOVFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788836555170-l7c39nlvncdr0oqdsgi14ptp9rkgo4i4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
