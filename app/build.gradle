@@ -87,6 +87,7 @@ dependencies {
 
     // Annotation Processing
     kapt AnnotationProcessing.dagger_compiler
+    kapt AnnotationProcessing.room_compiler
 
     // Support
     implementation SupportDependencies.appcompat
