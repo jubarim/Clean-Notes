@@ -6,6 +6,8 @@ interface NoteFirestoreService {
 
     suspend fun insertOrUpdateNote(note: Note)
 
+    suspend fun insertOrUpdateNotes(notes: List<Note>)
+
     suspend fun deleteNote(primaryKey: String)
 
     // When user clicks undo
@@ -23,7 +25,5 @@ interface NoteFirestoreService {
     suspend fun searchNote(note: Note): Note?
 
     suspend fun getAllNotes(): List<Note>
-
-    suspend fun insertOrUpdateNotes(notes: List<Note>)
 
 }
