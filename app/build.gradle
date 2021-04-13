@@ -25,6 +25,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion Versions.compilesdk
+
     defaultConfig {
         applicationId Application.id
         minSdkVersion Versions.minsdk
@@ -56,13 +57,20 @@ android {
         jvmTarget = Java.java_version
     }
 
+     // Fix: "More than one file was found with OS independent path 'META-INF/AL2.0'."
+     // error on Android Tests...
+    configurations.all {
+        resolutionStrategy {
+            exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+        }
+    }
+
     testOptions {
         unitTests.all {
             useJUnitPlatform()
         }
     }
 }
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -107,9 +115,16 @@ dependencies {
     testRuntimeOnly TestDependencies.jupiter_engine
     testImplementation Dependencies.retrofit_gson
 
-
+    androidTestImplementation AndroidTestDependencies.kotlin_test
+    androidTestImplementation AndroidTestDependencies.coroutines_test
+    androidTestImplementation AndroidTestDependencies.espresso_core
+    androidTestImplementation AndroidTestDependencies.espresso_contrib
+    androidTestImplementation AndroidTestDependencies.idling_resource
+    androidTestImplementation AndroidTestDependencies.mockk_android
+    androidTestImplementation AndroidTestDependencies.test_runner
+    androidTestImplementation AndroidTestDependencies.test_rules
+    androidTestImplementation AndroidTestDependencies.text_core_ktx
+    androidTestImplementation AndroidTestDependencies.navigation_testing
+    debugImplementation AndroidTestDependencies.fragment_testing
+    kaptAndroidTest  AnnotationProcessing.dagger_compiler
 }
-
-
-
-
