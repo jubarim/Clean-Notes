@@ -4,6 +4,7 @@ import com.codingwithmitch.cleannotes.business.domain.model.Note
 import com.codingwithmitch.cleannotes.framework.datasource.network.abstraction.NoteFirestoreService
 import com.codingwithmitch.cleannotes.framework.datasource.network.mappers.NetworkMapper
 import com.codingwithmitch.cleannotes.framework.datasource.network.model.NoteNetworkEntity
+import com.codingwithmitch.cleannotes.util.cLog
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,6 +30,9 @@ constructor(
             .collection(NOTES_COLLECTION)
             .document(entity.id)
             .set(entity)
+            .addOnFailureListener {
+                cLog(it.message)
+            }
             .await() // convert to a suspend function, so it waits in our usecases
     }
 
@@ -49,6 +53,10 @@ constructor(
                 batch.set(documentRef, entity)
             }
         }
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await()
     }
 
     override suspend fun deleteNote(primaryKey: String) {
@@ -58,6 +66,9 @@ constructor(
             .collection(NOTES_COLLECTION)
             .document(primaryKey)
             .delete()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -69,6 +80,9 @@ constructor(
             .collection(NOTES_COLLECTION)
             .document(entity.id)
             .set(entity)
+            .addOnFailureListener {
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -89,6 +103,10 @@ constructor(
                 batch.set(documentRef, entity)
             }
         }
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await()
     }
 
     override suspend fun deleteDeletedNote(note: Note) {
@@ -98,21 +116,33 @@ constructor(
             .collection(NOTES_COLLECTION)
             .document(note.id)
             .delete()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
             .await()
     }
 
+    // used in testing
     override suspend fun deleteAllNotes() {
         // Delete all notes from deletes node
         firestore
             .collection(DELETES_COLLECTION)
             .document(USER_ID)
             .delete()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await()
 
         // Delete all notes from notes node
         firestore
             .collection(NOTES_COLLECTION)
             .document(USER_ID)
             .delete()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await()
     }
 
     override suspend fun getDeletedNotes(): List<Note> {
@@ -122,6 +152,9 @@ constructor(
                 .document(USER_ID)
                 .collection(NOTES_COLLECTION)
                 .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
                 .await()
                 .toObjects(NoteNetworkEntity::class.java)
         )
@@ -134,6 +167,9 @@ constructor(
             .collection(NOTES_COLLECTION)
             .document(note.id)
             .get()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
             .await()
             .toObject(NoteNetworkEntity::class.java)?.let {
                 networkMapper.mapFromEntity(it)
@@ -147,6 +183,9 @@ constructor(
                 .document(USER_ID)
                 .collection(NOTES_COLLECTION)
                 .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
                 .await()
                 .toObjects(NoteNetworkEntity::class.java)
         )

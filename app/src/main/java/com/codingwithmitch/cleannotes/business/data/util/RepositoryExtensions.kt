@@ -10,6 +10,7 @@ import com.codingwithmitch.cleannotes.business.data.network.NetworkConstants.NET
 import com.codingwithmitch.cleannotes.business.data.network.NetworkErrors.NETWORK_ERROR_TIMEOUT
 import com.codingwithmitch.cleannotes.business.data.network.NetworkErrors.NETWORK_ERROR_UNKNOWN
 import com.codingwithmitch.cleannotes.business.data.util.GenericErrors.ERROR_UNKNOWN
+import com.codingwithmitch.cleannotes.util.cLog
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.io.IOException
@@ -30,6 +31,8 @@ suspend fun <T> safeApiCall(
             }
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
+            cLog("safeApiCall: ${throwable.message}")
+
             when (throwable) {
                 is TimeoutCancellationException -> {
                     val code = 408 // timeout error code
@@ -69,6 +72,8 @@ suspend fun <T> safeCacheCall(
             }
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
+            cLog("safeCacheCall: ${throwable.message}")
+
             when (throwable) {
 
                 is TimeoutCancellationException -> {

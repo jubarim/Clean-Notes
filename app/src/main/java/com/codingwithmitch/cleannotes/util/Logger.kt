@@ -3,6 +3,7 @@ package com.codingwithmitch.cleannotes.util
 import android.util.Log
 import com.codingwithmitch.cleannotes.util.Constants.DEBUG
 import com.codingwithmitch.cleannotes.util.Constants.TAG
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 var isUnitTest = false
 
@@ -15,3 +16,13 @@ fun printLogD(className: String?, message: String ) {
     }
 }
 
+/**
+ * Send crashes to crashlytics in production environment.
+ */
+fun cLog(msg: String?) {
+    msg?.let {
+        if (!DEBUG) {
+            FirebaseCrashlytics.getInstance().log(it)
+        }
+    }
+}
