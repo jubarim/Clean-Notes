@@ -21,6 +21,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion Versions.compilesdk
@@ -76,7 +77,6 @@ dependencies {
     implementation Dependencies.room_ktx
     implementation Dependencies.room_runtime
 
-
     // dependencies
     implementation Dependencies.dagger
     implementation Dependencies.retrofit
@@ -86,8 +86,8 @@ dependencies {
     implementation platform(Dependencies.firebase_bom)
     implementation Dependencies.firebase_firestore
     implementation Dependencies.firebase_auth
+    implementation Dependencies.firebase_crashlytics
     implementation Dependencies.firebase_analytics
-//    implementation Dependencies.firebase_crashlytics
 
     // Annotation Processing
     kapt AnnotationProcessing.dagger_compiler

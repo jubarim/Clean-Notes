@@ -20,11 +20,14 @@ object Dependencies {
     val room_ktx = "androidx.room:room-ktx:${Versions.room}"
     val play_core = "com.google.android.play:core:${Versions.play_core}"
     val leak_canary = "com.squareup.leakcanary:leakcanary-android:${Versions.leak_canary}"
+
+    // When using the BoM, don't specify versions in Firebase dependencies
     val firebase_bom = "com.google.firebase:firebase-bom:${Versions.firebase_bom}"
-    val firebase_firestore = "com.google.firebase:firebase-firestore-ktx:${Versions.firebase_firestore}"
-    val firebase_auth = "com.google.firebase:firebase-auth:${Versions.firebase_auth}"
-    val firebase_analytics = "com.google.firebase:firebase-analytics:${Versions.firebase_analytics}"
-    val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:${Versions.firebase_crashlytics}"
+    val firebase_firestore = "com.google.firebase:firebase-firestore-ktx"
+    val firebase_auth = "com.google.firebase:firebase-auth-ktx"
+    val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
+    val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+
     val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle_version}"
     val lifecycle_coroutines = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle_version}"
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit2_version}"

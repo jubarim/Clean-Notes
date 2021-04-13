@@ -19,10 +19,6 @@ object Versions {
     val leak_canary = "2.0-alpha-3"
     val swipe_refresh_layout = "1.1.0-alpha03"
     val firebase_bom = "27.0.0"
-    val firebase_firestore = "22.1.2"
-    val firebase_analytics = "18.0.3"
-    val firebase_crashlytics = "17.4.1"
-    val firebase_auth = "20.0.4"
     val espresso_core = "3.1.1"
     val espresso_idling_resource = "3.2.0"
     val mockk_version = "1.11.0"
@@ -37,5 +33,5 @@ object Versions {
     val junit_4_version = "4.13.2"
     val fragment_version = "1.2.0"
     val androidx_test_ext = "1.1.1"
-    val fabric_version = "1.31.2"
+    val crashlytics_gradle = "2.5.2"
 }
