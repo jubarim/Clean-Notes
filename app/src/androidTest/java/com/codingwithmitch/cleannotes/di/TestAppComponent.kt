@@ -1,6 +1,6 @@
 package com.codingwithmitch.cleannotes.di
 
-import com.codingwithmitch.cleannotes.business.TempTest
+import com.codingwithmitch.cleannotes.framework.datasource.network.implementation.NoteFirestoreServiceTests
 import com.codingwithmitch.cleannotes.framework.presentation.TestBaseApplication
 import dagger.BindsInstance
 import dagger.Component
@@ -20,5 +20,5 @@ interface TestAppComponent : AppComponent {
         fun create(@BindsInstance app: TestBaseApplication): TestAppComponent
     }
 
-    fun inject(tempTest: TempTest)
+    fun inject(noteFirestoreServiceTests: NoteFirestoreServiceTests)
 }
