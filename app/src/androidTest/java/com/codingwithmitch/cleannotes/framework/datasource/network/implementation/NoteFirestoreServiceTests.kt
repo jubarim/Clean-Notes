@@ -1,13 +1,11 @@
 package com.codingwithmitch.cleannotes.framework.datasource.network.implementation
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.codingwithmitch.cleannotes.business.domain.model.NoteFactory
 import com.codingwithmitch.cleannotes.di.TestAppComponent
+import com.codingwithmitch.cleannotes.framework.BaseTest
 import com.codingwithmitch.cleannotes.framework.datasource.network.abstraction.NoteFirestoreService
 import com.codingwithmitch.cleannotes.framework.datasource.network.mappers.NetworkMapper
-import com.codingwithmitch.cleannotes.framework.presentation.TestBaseApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.runBlocking
@@ -24,14 +22,10 @@ import kotlin.test.assertEquals
  * ❯ firebase emulators:start --only firestore
  */
 @RunWith(AndroidJUnit4ClassRunner::class)
-class NoteFirestoreServiceTests {
+class NoteFirestoreServiceTests : BaseTest() {
 
     // system in test
     private lateinit var noteFirestoreService: NoteFirestoreService
-
-    // dependencies
-    private val application: TestBaseApplication =
-        ApplicationProvider.getApplicationContext<Context>() as TestBaseApplication
 
     @Inject
     lateinit var firestore: FirebaseFirestore // we have injected here the local emulator firestore
@@ -46,8 +40,7 @@ class NoteFirestoreServiceTests {
     lateinit var networkMapper: NetworkMapper
 
     init {
-        (application.appComponent as TestAppComponent)
-            .inject(this)
+        injectTest()
         signIn()
     }
 
@@ -86,5 +79,10 @@ class NoteFirestoreServiceTests {
         // just for testing
         const val EMAIL = "jubarim@gmail.com"
         const val PASSWORD = "8jmarc"
+    }
+
+    override fun injectTest() {
+        (application.appComponent as TestAppComponent)
+            .inject(this)
     }
 }
