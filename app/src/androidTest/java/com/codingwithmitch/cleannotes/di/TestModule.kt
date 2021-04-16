@@ -1,7 +1,9 @@
 package com.codingwithmitch.cleannotes.di
 
 import androidx.room.Room
+import com.codingwithmitch.cleannotes.business.domain.model.NoteFactory
 import com.codingwithmitch.cleannotes.framework.datasource.cache.database.NoteDatabase
+import com.codingwithmitch.cleannotes.framework.datasource.data.NoteDataFactory
 import com.codingwithmitch.cleannotes.framework.presentation.TestBaseApplication
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -15,8 +17,11 @@ object TestModule {
     @Singleton
     @Provides
     fun provideNoteDb(app: TestBaseApplication): NoteDatabase {
-        return Room
-            .inMemoryDatabaseBuilder(app, NoteDatabase::class.java) // db at runtime only, not persistent, for testing
+        // db at runtime only, not persistent, for testing
+        return Room.inMemoryDatabaseBuilder(
+            app,
+            NoteDatabase::class.java
+        )
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -40,5 +45,16 @@ object TestModule {
         //firestore.useEmulator("10.0.2.2", 8080);
         firestore.firestoreSettings = settings
         return firestore
+    }
+
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideNoteDataFactory(
+        application: TestBaseApplication,
+        noteFactory: NoteFactory
+    ): NoteDataFactory {
+        return NoteDataFactory(application, noteFactory)
     }
 }
