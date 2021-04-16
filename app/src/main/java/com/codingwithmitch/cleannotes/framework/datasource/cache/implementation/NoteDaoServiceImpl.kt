@@ -33,13 +33,27 @@ constructor(
         }
     }
 
-    override suspend fun updateNote(primaryKey: String, title: String, body: String?): Int {
-        return noteDao.updateNote(
-            primaryKey = primaryKey,
-            title = title,
-            body = body,
-            updated_at = dateUtil.getCurrentTimestamp()
-        )
+    override suspend fun updateNote(
+        primaryKey: String,
+        title: String,
+        body: String?,
+        timestamp: String?
+    ): Int {
+        return if (timestamp != null) {
+            noteDao.updateNote(
+                primaryKey = primaryKey,
+                title = title,
+                body = body,
+                updated_at = timestamp
+            )
+        } else {
+            noteDao.updateNote(
+                primaryKey = primaryKey,
+                title = title,
+                body = body,
+                updated_at = dateUtil.getCurrentTimestamp()
+            )
+        }
     }
 
     override suspend fun deleteNote(primaryKey: String): Int {

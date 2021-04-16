@@ -21,8 +21,12 @@ constructor(
     override suspend fun deleteNotes(notes: List<Note>) =
         noteDaoService.deleteNotes(notes)
 
-    override suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String) =
-        noteDaoService.updateNote(primaryKey, newTitle, newBody)
+    override suspend fun updateNote(
+        primaryKey: String,
+        newTitle: String,
+        newBody: String,
+        timestamp: String?
+    ) = noteDaoService.updateNote(primaryKey, newTitle, newBody, timestamp)
 
     override suspend fun getAllNotes(): List<Note> =
         noteDaoService.getAllNotes()

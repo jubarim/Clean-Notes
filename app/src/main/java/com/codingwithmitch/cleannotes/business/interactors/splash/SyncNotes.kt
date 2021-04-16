@@ -28,8 +28,12 @@ class SyncNotes(
 ) {
     suspend fun syncNotes() {
         val cachedNotesList = getCachedNotes()
+        val networkNotesList = getNetworkNotes()
 
-        syncNetworkNotesWithCachedNotes(ArrayList(cachedNotesList))
+        syncNetworkNotesWithCachedNotes(
+            ArrayList(cachedNotesList),
+            networkNotesList
+        )
     }
 
     private suspend fun getCachedNotes(): List<Note> {
@@ -55,17 +59,7 @@ class SyncNotes(
         return response?.data ?: ArrayList()
     }
 
-    // Get all notes from network
-    // if they do not exist in cache, insert them
-    // if they do exist in cache, make sure they are up to date
-    // while looping, remove notes from the cachedNotes list. If any remain, it means they
-    // should be in the network but aren't. So insert them.
-    private suspend fun syncNetworkNotesWithCachedNotes(
-        cachedNotes: ArrayList<Note>
-    ) = withContext(IO) {
-
-        // Brute force way - as notes should not be very big - for big databases
-        // a different strategy should be used
+    private suspend fun getNetworkNotes(): List<Note> {
         val networkResult = safeApiCall(IO) {
             noteNetworkDataSource.getAllNotes()
         }
@@ -84,21 +78,28 @@ class SyncNotes(
             }
         }.getResult()
 
-        val noteList = response?.data ?: ArrayList()
+        return response?.data ?: ArrayList()
+    }
 
-        val job = launch {
-            // Loop thu network notes and do required processing
-            noteList.forEach { note ->
-                noteCacheDataSource.searchNoteById(note.id)?.let { cachedNote ->
-                    // If a note already exists in our cache, remove from our list - this note needs no further processing
-                    cachedNotes.remove(cachedNote)
-                    // Just check if cached note needs to be updated
-                    checkIfCachedNoteRequiresUpdate(cachedNote, note)
-                }?: noteCacheDataSource.insertNote(note) // if note does not exist in cache, add it!
-            }
+    // Get all notes from network
+    // if they do not exist in cache, insert them
+    // if they do exist in cache, make sure they are up to date
+    // while looping, remove notes from the cachedNotes list. If any remain, it means they
+    // should be in the network but aren't. So insert them.
+    private suspend fun syncNetworkNotesWithCachedNotes(
+        cachedNotes: ArrayList<Note>,
+        networkNotes: List<Note>
+    ) = withContext(IO) {
+
+        // Loop thu network notes and do required processing
+        networkNotes.forEach { note ->
+            noteCacheDataSource.searchNoteById(note.id)?.let { cachedNote ->
+                // If a note already exists in our cache, remove from our list - this note needs no further processing
+                cachedNotes.remove(cachedNote)
+                // Just check if cached note needs to be updated
+                checkIfCachedNoteRequiresUpdate(cachedNote, note)
+            } ?: noteCacheDataSource.insertNote(note) // if note does not exist in cache, add it!
         }
-        // wait for the first job to finish
-        job.join()
 
         // insert remaining into network
         cachedNotes.forEach { cachedNote ->
@@ -130,16 +131,18 @@ class SyncNotes(
                 noteCacheDataSource.updateNote(
                     primaryKey = networkNote.id,
                     newTitle = networkNote.title,
-                    newBody = networkNote.body
+                    newBody = networkNote.body,
+                    timestamp = networkNote.updated_at
                 )
             }
             // update network (cache has the newest data)
-        } else {
+        } else if (networkUpdatedAt < cacheUpdatedAt) {
             printLogD("SyncNotes", "Update network")
 
             safeApiCall(IO) {
                 noteNetworkDataSource.insertOrUpdateNote(cachedNote)
             }
         }
+        // else (==) we don't do anything, updating on == is was a bug (see video bug-fix-1)
     }
 }

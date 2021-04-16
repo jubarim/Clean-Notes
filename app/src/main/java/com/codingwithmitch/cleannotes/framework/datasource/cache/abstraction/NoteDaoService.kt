@@ -11,10 +11,16 @@ interface NoteDaoService {
 
     suspend fun searchNoteById(id: String): Note?
 
+    /**
+     * Update a note.
+     *
+     * Note: if [timestamp] is null, the current timestamp will be used
+     */
     suspend fun updateNote(
         primaryKey: String,
         title: String,
-        body: String?
+        body: String?,
+        timestamp: String?
     ): Int
 
     suspend fun deleteNote(primaryKey: String): Int
