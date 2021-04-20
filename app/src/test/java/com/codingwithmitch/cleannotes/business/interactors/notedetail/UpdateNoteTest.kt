@@ -37,7 +37,7 @@ Test cases:
     c) confirm nothing was updated in the cache
  */
 @InternalCoroutinesApi
-class InsertNewNoteTest {
+class UpdateNoteTest {
 
     // System in test
     private val updateNote: UpdateNote
