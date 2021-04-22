@@ -72,6 +72,11 @@ abstract class DataChannelManager<ViewState> {
         }
     }
 
+    /**
+     * Checks if it's possible to execute a new State Event to avoid:
+     *  - Executing the same event twice
+     *  - Execute a new event if something is already showing on screen
+     */
     private fun canExecuteNewStateEvent(stateEvent: StateEvent): Boolean{
         // If a job is already active, do not allow duplication
         if(isJobAlreadyActive(stateEvent)){
