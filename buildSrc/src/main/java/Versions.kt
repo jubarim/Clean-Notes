@@ -8,7 +8,7 @@ object Versions {
     val kotlin = "1.4.31"
     val ktx = "1.3.2"
     val dagger = "2.33"
-    val nav_components = "2.3.0-alpha06"
+    val nav_components = "2.3.5"
     val material_dialogs = "3.2.1"
     val room = "2.3.0-rc01"
     val appcompat = "1.3.0-rc01"

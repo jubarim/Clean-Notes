@@ -89,6 +89,8 @@ dependencies {
     implementation Dependencies.dagger
     implementation Dependencies.retrofit
     implementation Dependencies.retrofit_gson
+    implementation Dependencies.material_dialogs
+    implementation Dependencies.material_dialogs_input
 
     // firebase dependencies
     implementation platform(Dependencies.firebase_bom)
@@ -96,6 +98,10 @@ dependencies {
     implementation Dependencies.firebase_auth
     implementation Dependencies.firebase_crashlytics
     implementation Dependencies.firebase_analytics
+
+    // navigation
+    implementation Dependencies.navigation_ui
+    implementation Dependencies.navigation_fragment
 
     // Annotation Processing
     kapt AnnotationProcessing.dagger_compiler
