@@ -4,6 +4,7 @@ import com.codingwithmitch.cleannotes.framework.presentation.BaseApplication
 import com.codingwithmitch.cleannotes.framework.presentation.MainActivity
 import com.codingwithmitch.cleannotes.framework.presentation.notedetail.NoteDetailFragment
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.NoteListFragment
+import com.codingwithmitch.cleannotes.framework.presentation.splash.SplashFragment
 import com.codingwithmitch.cleannotes.notes.di.NoteViewModelModule
 import dagger.BindsInstance
 import dagger.Component
@@ -18,10 +19,10 @@ import javax.inject.Singleton
         NoteFragmentFactoryModule::class
     ]
 )
-interface AppComponent {
+interface AppComponent{
 
     @Component.Factory
-    interface Factory {
+    interface Factory{
 
         fun create(@BindsInstance app: BaseApplication): AppComponent
     }
@@ -31,4 +32,6 @@ interface AppComponent {
     fun inject(noteListFragment: NoteListFragment)
 
     fun inject(noteDetailFragment: NoteDetailFragment)
+
+    fun inject(splashFragment: SplashFragment)
 }

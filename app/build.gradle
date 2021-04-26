@@ -91,6 +91,7 @@ dependencies {
     implementation Dependencies.retrofit_gson
     implementation Dependencies.material_dialogs
     implementation Dependencies.material_dialogs_input
+    implementation Dependencies.markdown_processor
 
     // firebase dependencies
     implementation platform(Dependencies.firebase_bom)

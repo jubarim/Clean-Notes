@@ -1,6 +1,5 @@
 package com.codingwithmitch.cleannotes.framework.presentation.notelist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -33,14 +32,11 @@ import com.codingwithmitch.cleannotes.framework.datasource.cache.database.NOTE_F
 import com.codingwithmitch.cleannotes.framework.datasource.cache.database.NOTE_ORDER_ASC
 import com.codingwithmitch.cleannotes.framework.datasource.cache.database.NOTE_ORDER_DESC
 import com.codingwithmitch.cleannotes.framework.presentation.BaseApplication
-import com.codingwithmitch.cleannotes.framework.presentation.UIController
 import com.codingwithmitch.cleannotes.framework.presentation.common.BaseNoteFragment
 import com.codingwithmitch.cleannotes.framework.presentation.common.TopSpacingItemDecoration
 import com.codingwithmitch.cleannotes.framework.presentation.common.hideKeyboard
 import com.codingwithmitch.cleannotes.framework.presentation.notedetail.NOTE_DETAIL_SELECTED_NOTE_BUNDLE_KEY
-import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListStateEvent
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListStateEvent.*
-import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListToolbarState
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListToolbarState.*
 import com.codingwithmitch.cleannotes.framework.presentation.notelist.state.NoteListViewState
 import com.codingwithmitch.cleannotes.util.Constants.NOTE_PENDING_DELETE_BUNDLE_KEY
@@ -68,7 +64,6 @@ constructor(
         viewModelFactory
     }
 
-    lateinit var uiController: UIController
     private var listAdapter: NoteListAdapter? = null
     private var itemTouchHelper: ItemTouchHelper? = null
 
@@ -362,12 +357,12 @@ constructor(
     }
 
     private fun navigateToDetailFragment(selectedNote: Note){
-//        val bundle = bundleOf(NOTE_DETAIL_SELECTED_NOTE_BUNDLE_KEY to selectedNote)
-//        findNavController().navigate(
-//            R.id.action_note_list_fragment_to_noteDetailFragment,
-//            bundle
-//        )
-//        viewModel.setNote(null)
+        val bundle = bundleOf(NOTE_DETAIL_SELECTED_NOTE_BUNDLE_KEY to selectedNote)
+        findNavController().navigate(
+            R.id.action_note_list_fragment_to_noteDetailFragment,
+            bundle
+        )
+        viewModel.setNote(null)
     }
 
     private fun setupUI(){
@@ -544,15 +539,4 @@ constructor(
             )
         )
     }
-
-    override fun onAttach(context: Context) {
-        try{
-            uiController = context as UIController
-        }catch (e: ClassCastException){
-            e.printStackTrace()
-        }
-        super.onAttach(context)
-
-    }
-
 }
