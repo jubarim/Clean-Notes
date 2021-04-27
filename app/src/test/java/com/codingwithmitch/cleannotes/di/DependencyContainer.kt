@@ -22,34 +22,30 @@ class DependencyContainer {
     lateinit var noteFactory: NoteFactory
     lateinit var noteDataFactory: NoteDataFactory
 
-    private var notesData = HashMap<String, Note>()
-
     init {
         isUnitTest = true // for Logger.kt
     }
 
     fun build() {
-
-        this.javaClass.classLoader?.let {
-            noteDataFactory = NoteDataFactory(it)
+        this.javaClass.classLoader?.let { classLoader ->
+            noteDataFactory = NoteDataFactory(classLoader)
         }
-
-        // fake data set
-        notesData = noteDataFactory.produceHashMapOfNotes(
-            noteDataFactory.produceListOfNotes()
-        )
-
         noteFactory = NoteFactory(dateUtil)
 
-        // build our fakes
-
         noteNetworkDataSource = FakeNoteNetworkDataSourceImpl(
-            notesData = notesData,
+            notesData = noteDataFactory.produceHashMapOfNotes(
+                noteDataFactory.produceListOfNotes()
+            ),
             deletedNotesData = HashMap(),
             dateUtil = dateUtil
         )
+
+        // bug fixes 2 - we can't use the same data set as network data source, so
+        // it was created a different one.
         noteCacheDataSource = FakeNoteCacheDataSourceImpl(
-            notesData = notesData,
+            notesData = noteDataFactory.produceHashMapOfNotes(
+                noteDataFactory.produceListOfNotes()
+            ),
             dateUtil = dateUtil
         )
     }

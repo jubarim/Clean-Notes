@@ -66,11 +66,15 @@ class UpdateNoteTest {
         // Get a random note on the cache
         val randomNote = noteCacheDataSource.searchNotes("", "", 1)[2]
 
-        val updatedNote = noteFactory.createSingleNote(
+        // bug fix start
+        val updatedNote = Note(
             id = randomNote.id,
-            title = "This is the new title",
-            body = "Myself is not here but gone"
+            title = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            updated_at = dependencyContainer.dateUtil.getCurrentTimestamp(),
+            created_at = randomNote.created_at
         )
+        // bug fix end
 
         updateNote.updateNote(
             note = updatedNote,

@@ -52,6 +52,7 @@ class SyncDeletedNotesTest {
         for (note in networkNotes) {
             notesToDelete.add(note)
             noteNetworkDataSource.deleteNote(note.id)
+            noteNetworkDataSource.insertDeletedNote(note) // we have to insert into 'deletes' node
 
             // just get 4 notes
             if (notesToDelete.size > 4) {

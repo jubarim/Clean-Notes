@@ -4,15 +4,14 @@ import com.codingwithmitch.cleannotes.util.printLogD
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 abstract class DataChannelManager<ViewState> {
 
-    private val dataChannel = BroadcastChannel<DataState<ViewState>>(Channel.BUFFERED)
     private var channelScope: CoroutineScope? = null
     private val stateEventManager: StateEventManager = StateEventManager()
 
@@ -22,38 +21,9 @@ abstract class DataChannelManager<ViewState> {
 
     fun setupChannel(){
         cancelJobs()
-        initChannel()
-    }
-
-    private fun initChannel(){
-        dataChannel
-            .asFlow()
-            .onEach{ dataState ->
-                withContext(Main){
-                    dataState.data?.let { data ->
-                        handleNewData(data)
-                    }
-                    dataState.stateMessage?.let { stateMessage ->
-                        handleNewStateMessage(stateMessage)
-                    }
-                    dataState.stateEvent?.let { stateEvent ->
-                        removeStateEvent(stateEvent)
-                    }
-                }
-            }
-            .launchIn(getChannelScope())
     }
 
     abstract fun handleNewData(data: ViewState)
-
-    private fun offerToDataChannel(dataState: DataState<ViewState>){
-        dataChannel.let {
-            if(!it.isClosedForSend){
-                printLogD("DCM", "offer to channel!")
-                it.offer(dataState)
-            }
-        }
-    }
 
     fun launchJob(
         stateEvent: StateEvent,
@@ -65,7 +35,17 @@ abstract class DataChannelManager<ViewState> {
             jobFunction
                 .onEach { dataState ->
                     dataState?.let { dState ->
-                        offerToDataChannel(dState)
+                        withContext(Main){
+                            dataState.data?.let { data ->
+                                handleNewData(data)
+                            }
+                            dataState.stateMessage?.let { stateMessage ->
+                                handleNewStateMessage(stateMessage)
+                            }
+                            dataState.stateEvent?.let { stateEvent ->
+                                removeStateEvent(stateEvent)
+                            }
+                        }
                     }
                 }
                 .launchIn(getChannelScope())
