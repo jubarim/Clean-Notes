@@ -203,7 +203,7 @@ constructor(
         const val DELETES_COLLECTION = "deletes"
 
         // TODO: hardcoded for single user because we don't have a login screen
-        const val USER_ID = "NQcOb7ojPIRMWDuzheQXxqym2mb2"
+        const val USER_ID = "EQNTURWf0sMw8N1Kz8VDgAhDr9j1"
         const val EMAIL = "jmcassis@gmail.com"
     }
 
